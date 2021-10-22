@@ -5,14 +5,44 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Nome</th>
       <th scope="col">Código</th>
+      <th scope="col">Remover</th>
+      <th scope="col">Editar</th>
     </tr>
+    {% for produto in produtos %}
+    <tr>
+      <td>{{produto.nome}}</td>
+      <td>{{produto.codigo}}</td>
+      <td>
+        <form method="POST" action="{% url 'deletar' produto.id %}" > {% csrf_token %}
+          <button id="deletar" type="submit" class="btn btn-outline-danger">Excluir</button>
+          </form>
+      </td>
+      <td> 
+      <form method="POST" action="{% url 'editar' produto.id %} "> {% csrf_token %}
+          <button id="editar" type="submit" class="btn btn-outline-danger">Editar</button>
+       </form>
+      </td>
+    </tr>
+    {% endfor %}
+    
   </thead>
   <tbody>
  
   </tbody>
 </table>
 
+<nav aria-label="...">
+  <ul class="pagination">
+  {% for pagina in produtos.paginator.page_range %}
+
+  {% if produtos.number == pagina %}
+    <li class="page-item active"><a class="page-link" href="?p={{pagina}}&termo={{request.GET.termo}}">{{pagina}}</a></li>
+  {% else %}
+    <li class="page-item"><a class="page-link" href="?p={{pagina}}&termo={{request.GET.termo}}">{{pagina}}</a></li>
+  {%endif%}
+    {% endfor %}
+  </ul>
+</nav>
 {% endblock container %}

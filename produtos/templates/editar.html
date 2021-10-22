@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+{% if not valido and valido is not None %}
+    <div class="alert alert-danger">
+    <strong> {{mensagem}}</strong>
+{% endif %}
+
+<form method="POST" action="{% url 'editar_salvar' %}">{% csrf_token %}
+  <div class="col-md-6">
+    <label for="nome" class="form-label">Nome</label>
+    <input type="text" value="{{produto.nome}}" name="nome" class="form-control" id="nome">
+  </div>
+
+  <div class="col-md-6">
+    <label for="codigo" class="form-label">Código</label>
+    <input type="text" value="{{produto.codigo}}" name="codigo" class="form-control" id="codigo">
+  </div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </div>
+</form>
+
+
+{% endblock container %}}
