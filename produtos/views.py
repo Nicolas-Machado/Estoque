@@ -1,43 +1,47 @@
+import uuid
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from rest_framework import serializers
 from rest_framework.serializers import Serializer
+from django.contrib import messages
 
 from produtos.serializers import ProdutosSerializer
 from .services import ProdutoService
 from django.core.paginator import Paginator
 
 _SERVICE = ProdutoService()
+
+
 def home(request):
     return render(request, 'home.html')
-    
-def home_produtos(request, produto_id=None):
-    if produto_id is not None:
-        _SERVICE.remover_contatos_por_id(produto_id)
+
+
+def home_produtos(request, id:uuid=None):
+    if id is not None:
+        _SERVICE.remover_produtos_por_id(id)
 
     produtos = _SERVICE.buscar_todos_produtos()
     paginator = Paginator(produtos, 3)
     page = request.GET.get('p')
     produtos = paginator.get_page(page)
-    return render(request, 'home_produtos.html', context={'produtos':produtos})
-        
+    return render(request, 'home_produtos.html', context={'produtos': produtos})
+
 
 def home_entrada_saida(request):
     return render(request, 'home_entrada_saida.html')
 
-def editar_produto(self, request, produto_id=None):
-    if request.method == "GET" and produto_id is not None:
-        produto = _SERVICE.buscar_produto_por_id(produto_id)
-        return render(request, 'editar.html', context={"produto":produto})
-    
-    if request.method == "POST" and produto_id is not None:
-        produto = _SERVICE.buscar_produto_por_id(produto_id)
-        return render(request, 'editar.html', context={"produto":produto}) 
-    serializer = ProdutosSerializer(data=request.POST)
-    if not serializer.is_valid():
-        produto = _SERVICE.buscar_todos_produtos()
-        return render(request, 'editar.html', context={"valido":False, "mensagem":"Verifique os campos e tente novamente", "produto":produto})
+
+def home_editar_produto(request, id:uuid):
     produto = _SERVICE.buscar_produto_por_id(id)
-    _SERVICE.editar_produto(produto, request.POST)
-    return HttpResponseRedirect('/')
-    
+
+    if request.method == "GET":
+        return render(request, 'home_editar.html', context={"produto":produto})
+
+    message = _SERVICE.editar_produto(produto, request.POST)
+    if message is not None:
+         messages.error(request, message)
+         messages.warning(request, "ERROR")
+         messages.info(request, "INFO")
+         return render(request, template_name='home_editar.html', context={"produto":produto, "message":message})
+    messages.success(request, "Salvo com sucesso")
+    return render(request, template_name='home_editar.html', context={"produto":produto, "message":message})

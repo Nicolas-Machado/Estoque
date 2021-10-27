@@ -7,7 +7,9 @@
     <strong> {{mensagem}}</strong>
 {% endif %}
 
-<form method="POST" action="{% url 'editar_salvar' %}">{% csrf_token %}
+{% include 'partials/messages.html' %}
+
+<form method="POST" action="{% url 'editar' produto.id %}">{% csrf_token %}
   <div class="col-md-6">
     <label for="nome" class="form-label">Nome</label>
     <input type="text" value="{{produto.nome}}" name="nome" class="form-control" id="nome">
