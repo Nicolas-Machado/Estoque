@@ -21,10 +21,10 @@
 <script>
   document.getElementById("produtoCard").onclick = function() {
     window.location.href = "{% url 'produtos' %}";
-  };
+  }
 
   document.getElementById("entrada_saidaCard").onclick = function(){
-    window.location.href = "{% url 'entrada_saida' %}"
+    window.location.href = "{% url 'historico' %}";
   }
 </script>
 {% endblock container %}

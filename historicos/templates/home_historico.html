@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{%block container%}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID do produto</th>
+      <th scope="col">Funcionário</th>
+      <th scope="col">tipo</th>
+      <th scope="col">observações</th>
+    </tr>
+    {% for historico in historicos %}
+    <tr>
+      <td>{{historico.produto_id}}</td>
+      <td>{{historico.funcionario}}</td>
+      <td>{{historico.tipo}}</td>
+      <td>{{historico.observacao}}</td>
+    </tr>
+    {% endfor %}
+    
+  </thead>
+  <tbody>
+ 
+  </tbody>
+</table>
+
+<nav aria-label="...">
+  <ul class="pagination">
+  {% for pagina in historicos.paginator.page_range %}
+
+  {% if historicos.number == pagina %}
+    <li class="page-item active"><a class="page-link" href="?p={{pagina}}&termo={{request.GET.termo}}">{{pagina}}</a></li>
+  {% else %}
+    <li class="page-item"><a class="page-link" href="?p={{pagina}}&termo={{request.GET.termo}}">{{pagina}}</a></li>
+  {%endif%}
+    {% endfor %}
+  </ul>
+</nav>
+
+{%endblock container%}
