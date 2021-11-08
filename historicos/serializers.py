@@ -8,7 +8,7 @@ _SERVICE_PRODUTO = ProdutoService()
 class HistoricosSerializer(serializers.ModelSerializer):
     class Meta:
         model = HistoricoModel
-        fields = ('__all__',)
+        fields = ('id', 'produto_id', 'funcionario', 'tipo', 'observacao')
 
     def create(self, validated_data):
         produto = _SERVICE_PRODUTO.buscar_produto_por_codigo(validated_data.get('codigo_produto'))

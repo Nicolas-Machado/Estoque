@@ -1,38 +1,38 @@
 {% extends 'base.html' %}
 
+
 {% block container %}
 
 {% include 'partials/messages.html' %}
-{% include 'partials/produto_adicionar.html' %}
 
-<table class="table">
+
+<table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">Nome</th>
-      <th scope="col">Código</th>
-      <th scope="col">Remover</th>
-      <th scope="col">Editar</th>
+      <th width="50%">Nome</th>
+      <th width="30%">Código</th>
+      <th width="20%"></th>
+      {% include 'partials/produto_adicionar.html' %}
     </tr>
-    {% for produto in produtos %}
-    <tr>
-      <td>{{produto.nome}}</td>
-      <td>{{produto.codigo}}</td>
-      <td>
-        <form method="POST" action="{% url 'deletar' produto.id %}" > {% csrf_token %}
-          <button id="deletar" type="submit" class="btn btn-outline-danger">Excluir</button>
-          </form>
-      </td>
-      <td> 
-      <form method="GET" action="{% url 'editar' produto.id %} "> {% csrf_token %}
-          <button id="editar" type="submit" class="btn btn-outline-danger">Editar</button>
-       </form>
-      </td>
-    </tr>
-    {% endfor %}
-    
   </thead>
   <tbody>
- 
+  {% for p in produtos %}
+    <tr>
+      <td>{{p.nome}}</td>
+      <td>{{p.codigo}}</td>
+      <td>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Ações
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" method="POST" href="{% url 'deletar' p.id%}">Deletar</a>{% csrf_token %}
+              <a class="dropdown-item" method="GET" href="{% url 'editar' p.id%}">Editar</a>
+            </div>
+          </div>
+      </td>
+    </tr>
+{% endfor %}
   </tbody>
 </table>
 
@@ -48,4 +48,5 @@
     {% endfor %}
   </ul>
 </nav>
+
 {% endblock container %}

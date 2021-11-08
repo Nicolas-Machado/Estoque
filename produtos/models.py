@@ -18,7 +18,8 @@ class ProdutoModel(TimeStampedModel):
 
     codigo = models.CharField(
         db_column="CODIGO",
-        max_length=20
+        max_length=20,
+        unique=True
     )
 
     def __str__(self) -> str:

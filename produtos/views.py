@@ -5,7 +5,6 @@ from django.shortcuts import render
 from rest_framework import serializers
 from rest_framework.serializers import Serializer
 from django.contrib import messages
-
 from produtos.serializers import ProdutosSerializer
 from .services import ProdutoService
 from django.core.paginator import Paginator
@@ -28,6 +27,9 @@ def home_produtos(request, id:uuid=None):
         else:
                 serializer.save()
     produtos = _SERVICE.buscar_todos_produtos()
+    paginator = Paginator(produtos, 5)
+    page = request.GET.get('p')
+    produtos = paginator.get_page(page)
     return render(request, 'home_produtos.html', context={"produtos":produtos})
 
 
