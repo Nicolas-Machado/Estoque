@@ -27,12 +27,15 @@ class HistoricoModel(TimeStampedModel):
     )
 
     tipo = models.CharField(
-        max_length=10
+        max_length=30
+    )
+
+    quantidade = models.PositiveSmallIntegerField(
+        default=None
     )
 
     observacao = models.TextField(
-        default=None
-    )
+        default=None)
 
     class Meta:
         db_table = "HISTORICO"

@@ -6,17 +6,21 @@
   <thead>
     <tr>
     {% include 'partials/historico_adicionar.html' %}
-      <th scope="col">ID do produto</th>
       <th scope="col">Funcionário</th>
+      <th scope="col">Código do Produto</th>
       <th scope="col">tipo</th>
+      <th scope="col">Quantidade</th>
       <th scope="col">observações</th>
+      <th scope="col">Data de Adição</th>
     </tr>
     {% for historico in historicos %}
     <tr>
-      <td>{{historico.produto_id}}</td>
       <td>{{historico.funcionario}}</td>
+      <td>{{historico.produto_id.codigo}}</td>
       <td>{{historico.tipo}}</td>
+      <td>{{historico.quantidade}}</td>
       <td>{{historico.observacao}}</td>
+      <td>{{historico.data}}</td>
     </tr>
     {% endfor %}
     
